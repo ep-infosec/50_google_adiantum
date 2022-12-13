@@ -1,0 +1,73 @@
+% Copyright 2018 Google LLC
+%
+% Use of this source code is governed by an MIT-style
+% license that can be found in the LICENSE file or at
+% https://opensource.org/licenses/MIT.
+
+%%% script AUTHOR: Paul Crowley, Eric Biggers%%%
+%%% script TITLE: {Adiantum}: length-preserving encryption for entry-level processors%%%
+
+%!TeX spellcheck = en-US
+
+\RequirePackage{etex}
+\documentclass[letterpaper,luatex,11pt]{article}
+\usepackage{etoolbox}
+\newtoggle{iacr}
+\togglefalse{iacr}
+
+\usepackage{fontspec}
+\setmainfont{TeX Gyre Schola}
+\setsansfont{TeX Gyre Heros}
+\setmathrm{Latin Modern Roman}
+\setmathsf{Latin Modern Sans}
+\defaultfontfeatures{}
+\setmonofont{TeX Gyre Cursor}[Ligatures={NoCommon,NoRequired,NoContextual},Scale=0.9]
+
+\usepackage[hmargin=4cm,vmargin=3cm,nohead]{geometry}
+\usepackage[parfill]{parskip}
+\usepackage[style]{abstract}
+\usepackage{titling}
+\usepackage{sectsty}
+\usepackage{authblk}
+\usepackage{floatrow}
+\usepackage[svgnames]{xcolor}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{hyperxmp}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+
+% https://tex.stackexchange.com/questions/25346/wrong-spacing-before-theorem-environment-amsthm/26350
+\begingroup
+    \makeatletter
+    \@for\theoremstyle:=definition,remark,plain\do{%
+        \expandafter\g@addto@macro\csname th@\theoremstyle\endcsname{%
+            \addtolength\thm@preskip\parskip
+            }%
+        }
+\endgroup
+
+\pretitle{\begin{center}\LARGE\bfseries\sffamily} % sf title
+\renewcommand{\abstitlestyle}{\sffamily\bfseries\centering} % sf abstract
+\allsectionsfont{\sffamily} % sf sections
+
+\raggedright
+\raggedbottom
+
+\author{Paul~Crowley}
+\author{Eric~Biggers}
+\affil{Google LLC}
+
+\usepackage{hyperref}
+\hypersetup{breaklinks}
+\hypersetup{colorlinks}
+\hypersetup{urlcolor=DarkBlue}
+\hypersetup{linkcolor=DarkRed}
+\hypersetup{citecolor=DarkGreen}
+\hypersetup{unicode}
+\hypersetup{pdfencoding=unicode}
+\hypersetup{pdfauthor={Paul Crowley, Eric Biggers}}
+
+\input{shared-part.tex}

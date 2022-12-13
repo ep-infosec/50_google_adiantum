@@ -1,0 +1,237 @@
+[
+    {
+        "cipher": {
+            "cipher": "Bachata",
+            "rounds": 12,
+            "lengths": {
+                "key": 32,
+                "nonce": 56
+            }
+        },
+        "description": "Random ( 1)",
+        "input": {
+            "key_hex": "544a58f1a5a780514b7b91030fb23ae453264eedd09f13e1cd8c649aba423a63",
+            "nonce_hex": "185c768d86d7fb0d0b2b50b734bf2bc7d7f6f36548cb219d9de1094a8703450b4d5f9573aebf880625533ece534422088ca78bd7bc77ab12"
+        },
+        "tests": [
+            {
+                "input": {
+                    "offset": 0
+                },
+                "result_hex": "5f86fa50da73f04dfab240bfdac4a3df6db6e2aa956b7f068da30d1012d1c269769ec386c1a465f93a3b0336fc9782f2432c4f217443a1317ed020e3a176f1bcc258f7938dfa900053d7a29c8a179496e96461750cee75d4bd1d066af906ea4dcd44fcec0afd1f570ead68372fc45abd08e274a8ad30e1ec752130d03e991313"
+            },
+            {
+                "input": {
+                    "offset": 1
+                },
+                "result_hex": "e9a8f6812d0e9f33ceada118123438d22a2f973976571558f8579e37ad81065bad8fe278aaf0ca305706d8d47e7428f53947592d2e340bc3ff614cd23d677b59b2ce4da2c82f44017318d043892b62e9f8fea8275a97c29581429a9d597f11adf6943576accde2d7581def9215eb357a851961bbc7bd49e06bf12f8ba27d3333"
+            },
+            {
+                "input": {
+                    "offset": 1023
+                },
+                "result_hex": "18afbe89788ad0546d04d0a0e4a7c5cb67a5a407ec053519494fcaa5116329c3dd71cce54613e87fe745ddedd240d9803bef2b55c2bddbe0a9ce8f64189b6c4972859ba8f8ee1e1391c4c5ff1cea34e8cfa6a26c8a6bab06bb41a7c2df0568d4fffb235afe84d51ba9291a1721089a82e866257babb6b62f1ab65b769e3668a6"
+            },
+            {
+                "input": {
+                    "offset": 1024
+                },
+                "result_hex": "83d73dd1a5308fc334f59308f8f26236ae29a23f7e36f82adbd3207080e4b59333681036f1c7e476f7b2c763c5f6a63ca287508e5a822fdd4011ce33939bbe8056470e31277f25339c4727d08d0949281669f807b83758bd016cb3042234e3adba80d92161a457ebcddaccf57199437f0f90877c520dec0f3e72a47f692f753d"
+            },
+            {
+                "input": {
+                    "offset": 2048
+                },
+                "result_hex": "8a52e4110446fe1541d0ac7d6f9323eb7769aa6288c8ca974ffc74cc69a3c191e40aeebdab5667a102286520b50cf8c55c1b0aeeb2cc122fe3b5bb627741ba5d147e62971c66bf5991a992aeb80dbedfd629cea8b3ccf8a31c0b4a8c122572e2e0e5f4ce25d7aa3a870bc7d09c1ea7d1ee45db2c393866b09c26f64dd58a8ffe"
+            }
+        ]
+    },
+    {
+        "cipher": {
+            "cipher": "Bachata",
+            "rounds": 12,
+            "lengths": {
+                "key": 32,
+                "nonce": 56
+            }
+        },
+        "description": "Random ( 2)",
+        "input": {
+            "key_hex": "70a90ef8000507f65cb81741bb0906ba3e21dc7de686b02c40c07ae2030e5a52",
+            "nonce_hex": "cc4d1d83875a2ae414dccfa40a9450e2cf63f44ac6f0c510b6a8071e325f8bd67fb1f54919df8c3f727d9fd4c140d5d41539673f2508f680"
+        },
+        "tests": [
+            {
+                "input": {
+                    "offset": 0
+                },
+                "result_hex": "4db11c73afc134f2d6376a53a6615017850acd8c37dabd07e7d5f82db107dac02f22d812141c37e9eb6c49eb707257c64a446ed406293d0a5dbc049010a31e9b9d4ba5780b85320894d8418df8d5e5df4628d798b0bfbb8324faa6260d5fc12e4ece9a69284e6a5af55250bbe39e0cabe797a8f9112564a676a78a9caa5b6909"
+            },
+            {
+                "input": {
+                    "offset": 1
+                },
+                "result_hex": "d0f72a435859e29e7d12e07ca7df7b80e5ee861ac4ef9ae61f003126d74b0a9ad61d389cb5027c016622d8fc245d75a2c69a34281e1a210bca33030d723ea6ea9a91582ed2d1338ea82a734eb007666f0cae2942b9fd42b905539c136cb98f1eae80b937a13178862a4799854611d5fe8f6e98371665d65d0ecbc43cd304a3f9"
+            },
+            {
+                "input": {
+                    "offset": 1023
+                },
+                "result_hex": "6b4cafa9b71a31f7feae0dc106b9fed76004b573b25afe5c48e4b00fc0affa37f0f5260cae6ea49d7b8c532df41434f7e63c1d3da37ad2033ae47a4dcfb3e53d75725f962f9bfcb856b22d1d61ae90b0ac47c00a0e4db59425f4d96f2fcdcaac152bb103654dca8a183bcf274aa274680729ee9d9291767563d65dced998bff7"
+            },
+            {
+                "input": {
+                    "offset": 1024
+                },
+                "result_hex": "348fe677e57b33424a6d4fa0b6288c7476c88611b67db675b1612ac0d8719afc47524fd7eba480a37ab1985055e6087c172637c11de0e90214ccaa00728e5d739ed3d90b2f01c8ca06559ed1a49fbe121610ab74ae2eafc793a2a7200b4844f351cb11cc5a728ddfae6dbb799981c1e74f844c02f3ff8aad452f8c96748a22b3"
+            },
+            {
+                "input": {
+                    "offset": 2048
+                },
+                "result_hex": "d609d26c8b262e8644dc84ba6d563975274b875f0d2c1da994b5168375435a6ec009958bd92ac8849451f8ca63dfc3fee3aa446374024ddd35cf89fd2e2fa73e270b738c1a8169e0005b69ce155600a278c136e83719c762e4155a24db78ca13a6a29b544da5f041e58475ee4e135fb6c5cb3ca39757d66e674ed8a7ec7e3b9d"
+            }
+        ]
+    },
+    {
+        "cipher": {
+            "cipher": "Bachata",
+            "rounds": 12,
+            "lengths": {
+                "key": 32,
+                "nonce": 56
+            }
+        },
+        "description": "Random ( 3)",
+        "input": {
+            "key_hex": "f1cd20907f354a0a5116cd4d99c2f5815a20da255c45c708e0f014ce20da9114",
+            "nonce_hex": "b6fd6c6f3f9f67e3543a2b2ff3e52dd12b5972d89a4a4946818d94136ebb603186c23cc4f63e6f43f005dade46521bd9ee4b9a858a4d6195"
+        },
+        "tests": [
+            {
+                "input": {
+                    "offset": 0
+                },
+                "result_hex": "8933ca5731b2ba82426e3f62b064784164ee8bf3214c3eabd352b57dcf9bfd9b57db46ede51ab271d71fa69bf9cac03ffcda8e3140eaa9576c6ab1c415183d69fcc751ac7b7ea4c36dba314c82a55fe53df8d7303f0b7c08748df84f32ec802a7d0030cb8c15929bf061bc8c2dcf36e87be4f84bcb5a19d66e1f784b49c0bd6d"
+            },
+            {
+                "input": {
+                    "offset": 1
+                },
+                "result_hex": "58d6c63529a2eeb2f23d1bca9e2c30c48485ca85365c110545ff17f321554f59728754b014486c90d0d77edcd2f60dc8b7b0bb6bc30ba7c71efaafa1d458009e1454d9ea2f185402ec2e54188c1b082806a2e608d17fe05bd35b5b4ce0535b423b0e0a44bedbbae227dfce5832c66fbfda47c85763fcbbd7d8a87a96c1668da8"
+            },
+            {
+                "input": {
+                    "offset": 1023
+                },
+                "result_hex": "00a0a233613928b05d8cb33dc1105e8089215cd54c4db9011ab20046a5c4d596f459541940217252e1c83e5d93645e605dd1127fddeed518cf03c351da0c4500a34ac3ea4a0e869975ca042ccd1bf46453d0a9f8e364979fd051cafefabe76f7146da05a024df29977461db3191b1637ae2b13b21cb798d49d1c02318ad7ee3b"
+            },
+            {
+                "input": {
+                    "offset": 1024
+                },
+                "result_hex": "4da9b0e4b34c7bbd8cd88f1f1e65d6413238f7c952a91bdc6ed6ecc59d9117b089d9d41f499fa689b3f03faad3a4b210b1c52de0159e438e441e19a6bf4b99354129518ced3c8284820d1ed865ad06da49deefef3fa5df32ad2c063c7125ad2dd8c9a1c8fb804952799b4d9808f79afefc3148443dc69139fd5b3f6034fc82d8"
+            },
+            {
+                "input": {
+                    "offset": 2048
+                },
+                "result_hex": "bf0c4696c081ab0d5382300508297131919a9d3c7773b52598a23b6399efbf0fc2d8c363512ba733613d393a0fea2122a8e7390d246a473640fd8cc05f21a79b74af81ca5015d938ecd548935a339306d8891ce3e610331ab8ea989be192b0f52c954b8bb85b4a6dde8f82b38dae4e01e743b5b84e9f130d014ec3080f892286"
+            }
+        ]
+    },
+    {
+        "cipher": {
+            "cipher": "Bachata",
+            "rounds": 12,
+            "lengths": {
+                "key": 32,
+                "nonce": 56
+            }
+        },
+        "description": "Random ( 4)",
+        "input": {
+            "key_hex": "73badc387fbdc0e8258ff96f876e1221d63cb812c68848466be6ba960a7b226a",
+            "nonce_hex": "cc909463fb73af9d06babe737f3977ca60875eb903fb7129bbe6432d1ac840505b9966bb9e58495ffe21317509a7e0fccf85596734d652ad"
+        },
+        "tests": [
+            {
+                "input": {
+                    "offset": 0
+                },
+                "result_hex": "43d4b3d2e7f7dfc5972a3a85702a6e753386933dbb32eedc9efb8f0d47aa7ea3abf0a8ce104cd787b90717314d60e2ffc12b347815f23104a9f46d72c3366cad4283082dbc7d177bd69f92289ad5d486329b84f440cd9a25027a19448a09920b5367a597c1322c3341e44c6fc3f9bacd4cda627302cfb54be5dbfeef3dcc641b"
+            },
+            {
+                "input": {
+                    "offset": 1
+                },
+                "result_hex": "9e3e8d24e24a5b3f35c9e5efc753bc1921773450fb0f776182b8fcdd7bb1baac87b1d7a4b1fe75ae6b29c95708a732718490b43370bce881756b912ca7148152662fe0beaafb90481722d4143a37f20897d3d368790729e6ad06c4c484dc0d062fd95c21dd73a339f5885bbdc1d27ad7b94b1fd288cf66e55d0edb2021776273"
+            },
+            {
+                "input": {
+                    "offset": 1023
+                },
+                "result_hex": "8c6e356a3767974c10f40030a2302266da8a9bc4ed3bd23301cd48fe2c6c5365ed38785436e385f10ce8a8882dd8d1a92c5ea1f7f97dfae81f7f0c4f703131a79f909837c193cb0fac67b0121530aa519140bbff38e48e5973421b9ac6435be1ad0e1f0ef25a139b0e7bcd2cb177c694e8266c7182a9d980888f3f516be5fed6"
+            },
+            {
+                "input": {
+                    "offset": 1024
+                },
+                "result_hex": "fc91ea843e13075f969c76fa479aed3ee50bec125d2dc3bdc02344a269a39ef09e54f07b08b5b90dc6f832d3459a539dc7b96d2d2d5616e95c13b637239bd4b7b4f3569e9aaf2e58754a6b5fa8adf77006a1815a7e2311bad697a97e8517ed2f65e3388090efba5607300a35319c82163134915f29abd635505e47e3b8e2a362"
+            },
+            {
+                "input": {
+                    "offset": 2048
+                },
+                "result_hex": "6aa58cf74feae52a57fbfbd6b1404701a3ee860860532913ef957ecc6f1b0648ba147ed88757b5992d5e448bb0279fea4254a4f8851b8974712b4373b14392eeb41dccfc2da23eb40b92c1a5640e5db1599e2341caf8a8f9c5e48ce02d985f3c5b77d9790e8cc39709abe45488d63c1efe721a9f847a07ab9aa8337743062781"
+            }
+        ]
+    },
+    {
+        "cipher": {
+            "cipher": "Bachata",
+            "rounds": 12,
+            "lengths": {
+                "key": 32,
+                "nonce": 56
+            }
+        },
+        "description": "Random ( 5)",
+        "input": {
+            "key_hex": "25e0a6e9e3a55580f2614daf399a0992b5feea139dc7bff0188161c6ad2c84d1",
+            "nonce_hex": "1d07a74fccc42d2a22704b35ca10349e37591533eebaebda17c04fb1212ad9fa0166de8ce7041c70da7949c89e492ec2747a165f896e8f23"
+        },
+        "tests": [
+            {
+                "input": {
+                    "offset": 0
+                },
+                "result_hex": "d8e52786a886b4fed18e051bd98cacb2a9c02000fbd8af79de2dc7f079a50fe91a5f46fc11411f04e846aaa7f1f6be07aec7ea16f44c2107b04202802f30774a28d2326f8876b98be5e194342aa9dc59ff3b363bd19c450d78182ca400182582b8a8a53d9127f43fc3386755bdcc6e08ca6d7f9610edf0aa74cb272746d829f7"
+            },
+            {
+                "input": {
+                    "offset": 1
+                },
+                "result_hex": "4ee741aa4ee8c35aa4460de1c3f5ff8c43460ed2b8944ba09e8bd3daefac4ba3dab9b87d3895eb5b2a9a38ea27eab614cc9e756713c1993324c1fd3861a382133ab662d29a508944d2ade422f888c24091500cbd0daa3e7fb8f6f9ea2c0266b5c4d98b9896b312a5eb7982df8d2399ae40d843ded82e16a594f4c36a1ff5c600"
+            },
+            {
+                "input": {
+                    "offset": 1023
+                },
+                "result_hex": "3acb6596558307f7305c099b4e2ab1b4f5a0dea32cdc6c83edeb0f3d69ed0a2a5bdb9738179fa99e343311dbdce1cc974e39b53ab4c8572402669c697282e1411665a1dfb49f16d288db85c01ba2df77e93b7c0271184f555bb5c3308889c0682c33e4b1761a04451b4974ec60355cc36c5f750f0357bc5fa69590745285f25e"
+            },
+            {
+                "input": {
+                    "offset": 1024
+                },
+                "result_hex": "c931c938932b6c69ec7d77836c61aef55d8d1fd52b2b63468ee3bc956a961eca4c6ace27e3b5d1c17d9f7cf6523a0441f39b4af87008e60a1962f45682d14f76fc727eb36be6b48b224f8197f4f4955565bd3a9558b866f56e1cace0a01c033fcefc3c4d21e71d659717701ddd077c7095b8fe7c0bc1170bec2a112cae096ae7"
+            },
+            {
+                "input": {
+                    "offset": 2048
+                },
+                "result_hex": "47e132b37b9fe60f2a7887a742e7669cac53d3ba1b12e8d93a8430529a5fa6f71c81ae7b05b5040c1cc7eab94598fa6a9ab7d0c3f6a2b6b6a141e3c68f48c21585ef8b4d83296e438045b5b7a1e75c115f5d9f5fd4b8cbbcd618bec9b0666ccea4b74dc9cba7c291559a8c4efaa53961634d1bfd023794afadd603e11bb3eff9"
+            }
+        ]
+    }
+]

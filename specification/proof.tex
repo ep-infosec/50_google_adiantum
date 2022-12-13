@@ -1,0 +1,517 @@
+% Copyright 2018 Google LLC
+%
+% Use of this source code is governed by an MIT-style
+% license that can be found in the LICENSE file or at
+% https://opensource.org/licenses/MIT.
+
+%!TeX spellcheck = en-US
+
+\documentclass[eprint.tex]{subfiles}
+\begin{document}
+\section{Security of HBSH}
+Assuming the security of the underlying block and stream ciphers,
+we show here that HBSH has an
+advantage bound that grows quadratically with the number of queries.
+\subsection{Definition of HBSH}\label{funcdef}
+We provide here an
+equivalent definition of HBSH in functional form.
+Where a parameter is given as $L \Concat R$ we have that
+$L \in \mathcal{L}$, $R \in \mathcal{R}$, $L \Concat R \in \mathcal{M}$.
+
+\begin{align*}
+    \xi :{}& \mathcal{K}_H \times \mathcal{T} \times \mathcal{M} \rightarrow \mathcal{R} \\
+    \xi_{K_H}(T, L \Concat R) \defeq{}& R \boxplus H_{K_H}(T, L) \\
+    %
+    \allowdisplaybreaks[4] \vphantom{|} \\ \allowdisplaybreaks[0]
+    %
+    \phi :{}& \mathcal{K}_H \times \mathcal{T} \times \mathcal{M} \rightarrow \mathcal{M} \\
+    \phi_{K_H, T}(L \Concat R) \defeq{}& L \Concat \xi_{K_H}(T, L \Concat R) \\
+    ={}& L \Concat (R \boxplus H_{K_H}(T, L)) \\
+    \phi^{-1}_{K_H, T}(L \Concat R) ={}& L \Concat (R \boxminus H_{K_H}(T, L)) \\
+    %
+    \allowdisplaybreaks[4] \vphantom{|} \\ \allowdisplaybreaks[0]
+    %
+    \theta :{}& \Perm(\mathcal{R}) \times (\mathcal{N} \rightarrow \bin^{l_S}) \times \mathcal{M} \rightarrow \mathcal{M} \\
+    \theta_{\pi, F}(L \Concat R) \defeq{}& (L \oplus F(\pi(R))[0;\abs{L}]) \Concat \pi(R) \\
+    \theta_{\pi, F}^{-1}(L \Concat R) ={}& (L \oplus F(R)[0;\abs{L}]) \Concat \pi^{-1}(R) \\
+    %
+    \allowdisplaybreaks[4] \vphantom{|} \\ \allowdisplaybreaks[0]
+    %
+    \eta :{}& \mathcal{K}_H \times \Perm(\mathcal{R}) \times (\mathcal{N} \rightarrow \bin^{l_S}) \times \mathcal{T} \times \mathcal{M} \rightarrow \mathcal{M} \\
+    \eta_{K_H, \pi, F, T} \defeq{}& \phi_{K_H,T}^{-1} \circ \theta_{\pi, F} \circ \phi_{K_H,T} \\
+    %
+    \allowdisplaybreaks[4] \vphantom{|} \\ \allowdisplaybreaks[0]
+    %
+    \bar{\eta} :{}& (\mathcal{N} \rightarrow \bin^{l_S}) \times \mathcal{T} \times \mathcal{M} \rightarrow \mathcal{M} \\
+    \bar{\eta}_{F} \defeq{}& \eta_{K_H, E_{K_E}, F} \quad \textrm{where} \ K_E \Concat K_H \Concat \ldots = F(\lambda) \\
+    %
+    \allowdisplaybreaks[4] \vphantom{|} \\ \allowdisplaybreaks[0]
+    %
+    \HBSH :{}& \mathcal{K}_S \times \mathcal{T} \times \mathcal{M} \rightarrow \mathcal{M} \\
+    \HBSH_{K_S} \defeq{}& \bar{\eta}_{S_{K_S}} \\
+\end{align*}
+
+\subsection{Security definitions}
+\parintro{Hash function}
+The hash function $H$
+must be $\epsilon$-almost-$\Delta$-universal\label{eadudef}
+($\epsilon$-$\Delta$U)
+for some $\epsilon$~\cite{eadu}:
+for any $g \in \mathcal{R}$ and
+any two distinct messages $(T, L) \neq (T', L')$:
+%
+\begin{displaymath}
+\probsub{K \sample \mathcal{K}_H}{H_{K}(T, L) \boxminus H_{K}(T', L') = g} \leq \epsilon
+\end{displaymath}
+%
+Given bounds on the lengths of $T$ and $L$, the value of $\epsilon$ for the
+hash function used in HPolyC is given in \autoref{hpolycepsilon},
+and for Adiantum in \autoref{adiantumepsilon}.
+
+\parintro{Block cipher}
+The block cipher
+$E$
+must be a super-pseudorandom permutation~\cite{concsym}:
+%
+\begin{align*}
+    \advantage{\pm \mathrm{prp}}{E}[(A)] \defeq
+    {}&\left\lvert\probsub{K \sample \mathcal{K}_E}{A^{E_K,E_K^{-1}}\Rightarrow 1}\right.
+    \\
+    {}&\left. - \probsub{\pi \sample \Perm(\mathcal{R})}{A^{\pi,\pi^{-1}}\Rightarrow 1}\right\rvert
+    \\
+    \advantage{\pm \mathrm{prp}}{E}[(q, t)] \defeq
+    {}&\max_{A \in \mathcal{A}(q, t)} \advantage{\pm \mathrm{prp}}{E}[(A)]
+\end{align*}
+%
+where $A$ is an adversary,
+$\Perm(S)$ denotes the set of all permutations on a set $S$,
+and
+$\mathcal{A}(q, t)$
+is the set of all adversaries that make at most $q$ queries and take at most $t$ time.
+
+\parintro{Stream cipher}
+Our definition is related to the definition of a PRF in \cite{concsym}, but
+because we model the stream cipher $S$ as a pseudorandom function with a very long output,
+we bound the adversary not only in how many queries they make,
+but also in how many bits they read in total.
+Thus, a query consists of a pair
+$(N, l_q) \in \mathcal{N} \times \NN$ where $0 < l_q \leq l_S$,
+and the response is $S_K(N)[0;l_q]$ or $F(N)[0;l_q]$;
+we cap the sum of $l_q$ values across queries.
+%
+\begin{align*}
+    \advantage{\mathrm{sc}}{S}[(A)] \defeq
+    {}&\left\lvert \probsub{K \sample \mathcal{K}_S}{A^{S_{K}(.)[0;.]}\Rightarrow 1}\right.
+    \\
+    {}&\left. - \probsub{F \sample (\mathcal{N} \rightarrow \bin^{l_S})}
+    {A^{F(.)[0;.]}\Rightarrow 1} \right\rvert
+    \\
+    \advantage{\mathrm{sc}}{S}[(q, l, t)]
+    \defeq {}&\max_{A \in \mathcal{A}(q, l, t)} \advantage{\mathrm{sc}}{S}[(A)]
+\end{align*}
+%
+where $A$ is an adversary,
+$\mathcal{N} \rightarrow \bin^{l_S}$ denotes the set of all
+functions from $\mathcal{N}$ to $\bin^{l_S}$,
+and
+$\mathcal{A}(q, l, t)$
+is the set of all adversaries that make at most $q$ queries such that
+$\sum l_q \leq l$, and which take at most $t$ time.
+
+\parintro{Tweakable SPRP}
+Let $\LP^\mathcal{T}(\mathcal{M})$ denote the set of all
+tweakable length-preserving functions
+$\bm{f} : \mathcal{T} \times \mathcal{M} \rightarrow \mathcal{M}$
+such that for all $T, M \in \mathcal{T} \times \mathcal{M}$,
+$\abs{\bm{f}(T, M)} = \abs{M}$. Let $\Perm^\mathcal{T}(\mathcal{M})$ denote
+the set of $\bm{\pi} \in \LP^\mathcal{T}(\mathcal{M})$ such that
+for all $T \in \mathcal{T}$, $\bm{\pi}_{T}$ is a bijection.
+In an abuse of notation
+we use $\bm{\pi}^{-1}$ to refer to the function
+such that $\bm{\pi}^{-1}(T, \bm{\pi}(T, M)) = M$ ie $(\bm{\pi}^{-1})_T = (\bm{\pi}_T)^{-1}$.
+
+Per~\cite{cmc}, for a tweakable, variable-input-length, super-pseudorandom permutation
+$\bm{E} : \mathcal{K} \times \mathcal{T} \times \mathcal{M} \rightarrow \mathcal{M}$
+the distinguishing advantage of an adversary $A$ is:
+%
+\begin{align*}
+    \advantage{\pm \widetilde{\mathrm{prp}}}{\bm{E}}[(A)] \defeq
+    {}&\left\lvert\probsub{K \sample \mathcal{K}}{A^{\bm{E}_K,\bm{E}_K^{-1}}\Rightarrow 1}\right.
+    \\
+    {}&\left. - \probsub{\bm{\pi} \sample \Perm^\mathcal{T}(\mathcal{M})}
+        {A^{\bm{\pi},\bm{\pi}^{-1}}\Rightarrow 1}\right\rvert
+    \\
+    \intertext{and}
+    \advantage{\pm \widetilde{\mathrm{prp}}}{\bm{E}}[(q, l_T, l_M, t)]
+    \defeq {}&
+    \max_{A \in \mathcal{A}(q, l_T, l_M, t)} \advantage{\pm \widetilde{\mathrm{prp}}}{\bm{E}}[(A)]
+\end{align*}
+%
+\begin{displaymath}
+\end{displaymath}
+where $\mathcal{A}(q, l_T, l_M, t)$
+is the set of all adversaries that
+make at most $q$ queries,
+with tweak of length at most $l_T$
+and message of length at most $l_M$,
+and take at most $t$ time.
+
+\subsection{Primary claim}
+\begin{theorem}\label{hbshadvantage}
+    Where HBSH mode is instantiated with hash function $H$, block cipher $E$ and stream cipher $S$,
+    and where $H$ is $\epsilon$-almost-$\Delta$-universal for inputs such that
+    $\abs{T} \leq l_T$, $\abs{L} \leq l_M - n$, then:
+    %
+    \begin{align*}
+        \advantage{\pm \widetilde{\mathrm{prp}}}{\HBSH}[(q, l_T, l_M, t)]
+        \leq {}&(\epsilon + 2(2^{-n}))\binom{q}{2} \\
+        {}&+ \advantage{\mathrm{sc}}{S}[(q + 1, \abs{K_E} + \abs{K_H} + q(l_M - n), t')] \\
+        {}&+ \advantage{\pm \mathrm{prp}}{E}[(q, t')]\\
+    \end{align*}
+    %
+    where $t' = t + \bigO{q(l_T + l_M)}$.
+\end{theorem}
+
+This is proven in what follows. First we use the H-coefficient technique to establish
+\autoref{xyadv}, a closely related bound; then in \autoref{hbshproof} we bridge the
+gap between this bound and the desired bound.
+
+\subsection{H-coefficient technique}
+The H-coefficient technique was introduced by Patarin in 1991~\cite{ppdes,hco}.
+In what follows we rely on the highly recommended exposition of
+\cite{hco2} Section 3,
+``The H-coefficient Technique in a Nutshell'', though we vary slightly by introducing
+a new symbol $\Upsilon$ so we can distinguish between what is sampled and the adversary oracles.
+
+We wish to bound the adversary's ability to distinguish between
+two ``worlds'', world X (the ``real world'') and world Y (the ``ideal world'').
+Associated with world X we have
+\begin{itemize}
+    \item $\Omega_X$: a set of instances we sample fairly from. We write
+    $\probsub{\Omega_X}{}$ as shorthand for $\probsub{\omega \sample \Omega_X}{}$.
+    \item $\Upsilon_X$: a map from an instance $\omega \in \Omega_X$ to a tuple of
+    deterministic oracles we can present to the adversary.
+    \item $\rho_X \defeq \probsub{\Omega_X}{A^{\Upsilon_X(\omega)} \Rightarrow 1}$\label{rhox}
+    where the adversary $A$ is clear from context.
+    As the adversary interacts with the oracles, a transcript $\tau$
+    of queries and responses is generated.
+    \item $X$: a random variable representing a transcript for $A^{\Upsilon_X(\omega)}$
+    given $\omega \sample \Omega_X$; we write $\tau \sample X$
+    to indicate that $\tau$ is sampled from this distribution.
+    \item $\comp_X$:  We write $\omega \in \comp_X(\tau)$
+    if a transcript $\tau$ is ``compatible'' with an instance $\omega \in \Omega_X$,
+    ie if given an adversary $A$ that makes those queries, the oracles $\Upsilon_X(\omega)$
+    make those responses and thus $A^{\Upsilon_X(\omega)}$ produces that transcript.
+\end{itemize}
+We have the same for world Y throughout.
+
+We assume a deterministic adversary. This is without loss of
+generality; if we assume a distribution of adversaries $A \sample \mathcal{A}$
+then an advantage bound on each of the deterministic adversaries $A$ bounds the advantage
+of the ensemble $\mathcal{A}$.
+
+Once $\omega$ is sampled, the oracles $\Upsilon_X(\omega)$ are then deterministic;
+the transcript produced by $A^{\Upsilon_X(\omega)}$ is thus the unique transcript
+compatible both with adversary $A$ and instance $\omega$. Where a transcript
+is not compatible with $A$, $\prob{X = \tau} = \prob{Y = \tau} = 0$. If either
+of these is not zero, the transcript is compatible with $A$, and
+$\prob{X = \tau} = \probsub{\Omega_X}{\omega \in \comp_X(\tau)}$ and similarly for Y.
+
+The adversary always returns the same result for the same transcript, so
+its advantage is maximized if it returns 1 exactly when $\prob{Y = \tau} > \prob{X = \tau}$.
+Therefore:
+\begin{align*}
+    \advantage{\textrm{Y}}{\textrm{X}}[(A)] ={}&
+    \abs{\rho_X - \rho_Y} \\
+    \leq {}& \sum_{\tau: \prob{Y = \tau} > \prob{X = \tau}}
+    \left(\prob{Y = \tau} - \prob{X = \tau}\right) \\
+    = {}& \sum_{\tau: \prob{Y = \tau} > \prob{X = \tau}}
+    \prob{Y = \tau}\left(1 - \frac{\prob{X = \tau}}{\prob{Y = \tau}}\right) \\
+    = {}& \sum_{\tau: \prob{Y = \tau} > 0}
+    \prob{Y = \tau}\left(1 - \minone{\frac{\prob{X = \tau}}{\prob{Y = \tau}}}\right) \\
+    = {}& \expsub{\tau \sample Y}{1 - \minone{
+           \frac{\prob{X = \tau}}{\prob{Y = \tau}}
+        }} \\
+    = {}& 1 - \expsub{\tau \sample Y}{\minone{
+           \frac{\probsub{\Omega_X}{\omega \in \comp_X(\tau)}}
+           {\probsub{\Omega_Y}{\omega \in \comp_Y(\tau)}}
+        }}
+\end{align*}
+where $\expect{}$ is the expected value.
+With this rearrangement, the only probability distribution we sum over is that
+of $Y$, which can be more convenient to work with.
+
+\subsection{Preliminaries}
+\parintro{World X}
+World X is
+an idealized form of HBSH which uses a random function and permutation:
+$\Omega_X \defeq \mathcal{K}_H \times \Perm(\mathcal{R}) \times (\mathcal{N} \rightarrow \bin^{l_S})$,
+and given $(K_H, \pi, F) \in \Omega_X$,
+$\Upsilon_X(K_H, \pi, F) \defeq (\eta_{K_H, \pi, F}, \eta_{K_H, \pi, F}^{-1})$.
+
+\parintro{World Y}
+World Y samples fairly from all possible pairs of tweakable length-preserving functions:
+$\Omega_Y \defeq \LP^\mathcal{T}(\mathcal{M}) \times \LP^\mathcal{T}(\mathcal{M})$,
+so given $(\mathcal{E}, \mathcal{D}) \in \Omega_Y$,
+$\Upsilon_Y(\mathcal{E}, \mathcal{D}) \defeq (\mathcal{E}, \mathcal{D})$.
+
+\parintro{Transcript}
+Our transcript $\tau$ is a sequence of tuples
+$(d^i, T^i, P^i, C^i)$
+in
+$\{+, -\} \times \mathcal{T} \times \mathcal{M} \times \mathcal{M}$
+for $i \in [0 \ldots q-1]$.
+For the $i$th sequential query
+$d^i$ is the direction of the query:
+if $d^i = +$ then a plaintext query $T^i, P^i$ is made and the result is $C^i$,
+while if $d^i = -$ then a ciphertext query $T^i, C^i$ is made and the result is $P^i$.
+
+\parintro{Pointless queries}
+We consider adversaries contained in $\mathcal{A}(q, l_T, l_M, t)$ for some value of
+the bounds $q$, $l_T$, $l_M$, $t$.
+Without loss of generality, we consider only adversaries who do not make ``pointless''
+queries as defined in \cite{cmc}. Thus for $i < j$, if $d^j = +$ then
+$(T^i, P^i) \neq (T^j, P^j)$, and similarly if $d^j = -$ then
+$(T^i, C^i) \neq (T^j, C^j)$.
+
+\parintro{Bad events}
+We define various classes of ``bad event'':
+
+\begin{itemize}
+    \item $(K_H, \tau) \in \badQ$ if there exists $i < j$ such that either
+    \begin{itemize}
+        \item $d^j = +$ and $\xi_{K_H}(T^i, P^i) = \xi_{K_H}(T^j, P^j)$, or
+        \item $d^j = -$ and $\xi_{K_H}(T^i, C^i) = \xi_{K_H}(T^j, C^j)$.
+    \end{itemize}
+    \item $(K_H, \tau) \in \badR$ if there exists $i < j$ such that either
+    \begin{itemize}
+        \item $d^j = +$ and $\xi_{K_H}(T^i, C^i) = \xi_{K_H}(T^j, C^j)$, or
+        \item $d^j = -$ and $\xi_{K_H}(T^i, P^i) = \xi_{K_H}(T^j, P^j)$.
+    \end{itemize}
+\end{itemize}
+
+Finally we define the disjunction
+$\bad \defeq \badQ \cup \badR$.
+
+\subsection{Lemmas}
+\begin{lemma} \label{badQ}
+    For any $\tau$ such that $\prob{Y = \tau} > 0$,
+    \begin{displaymath}
+        \probsub{K_H \sample \mathcal{K}_H}{(K_H, \tau) \in \badQ}
+        \leq \epsilon \binom{q}{2}
+    \end{displaymath}
+\end{lemma}
+
+\begin{proof}
+Assume $d^j = +$ for some pair $i, j$, and let $L^i \Concat R^i = P^i$ and similarly for $P^j$.
+From $\prob{Y = \tau} > 0$ we know that $\abs{T^i}, \abs{T^j} \leq l_T$ and $\abs{P^i}, \abs{P^j} \leq l_M$,
+and therefore that $\abs{L^i}, \abs{L^j} \leq l_M - n$.
+Because pointless queries are forbidden we also know that $(T^i, P^i) \neq (T^j, P^j)$.
+%
+\begin{align*}
+    {}&\xi_{K_H}(T^i, L^i \Concat R^i) = \xi_{K_H}(T^j, L^j \Concat R^j) \\
+    \Leftrightarrow{}& R^i \boxplus H_{K_H}(T^i, L^i) = R^j \boxplus H_{K_H}(T^j, L^j) \\
+    \Leftrightarrow{}& H_{K_H}(T^i, L^i) \boxminus H_{K_H}(T^j, L^j) = R^j \boxminus R^i \\
+\end{align*}
+%
+If $(T^i, L^i) = (T^j, L^j)$ then $R^i \neq R^j$ and equality cannot occur.
+Otherwise by the $\epsilon$-$\Delta$U property of $H$ this occurs with probability
+at most $\epsilon$ (where $\epsilon$ depends on the bounds on
+the parameters $l_T$, $l_M -n$).
+
+Where $d^j = -$, a similar argument applies for $C^i$, $C^j$.
+For an upper bound, we sum across all $\binom{q}{2}$ pairs $i, j$.
+\end{proof}
+
+\begin{lemma} \label{badR}
+    For any $K_H \sample \mathcal{K}_H$,
+    \begin{displaymath}
+        \probsub{\tau \sample Y}{(K_H, \tau) \in \badR}
+        \leq 2^{-n} \binom{q}{2}
+    \end{displaymath}
+\end{lemma}
+
+\begin{proof}
+    Assume $d^j = +$ for some pair $i, j$, and let $L^i \Concat R^i = C^i$ and similarly for $C^j$.
+    Because pointless queries are forbidden, in world Y,
+    conditioning on all prior queries and responses,
+    all possible values of $C^j$ such that $\abs{C^j} = \abs{P^j}$ will be equally likely.
+    In particular, even after conditioning on $L^j$,
+    all values of $R^j$ are equally likely. Therefore
+    $\prob{R^j = R^i \boxplus H_{K_H}(T^i, L^i) \boxminus H_{K_H}(T^j, L^j)} = 2^{-n}$.
+
+    Where $d^j = -$, a similar argument applies for $P^i$, $P^j$.
+    For an upper bound, we sum across all $\binom{q}{2}$ pairs $i, j$.
+\end{proof}
+
+\begin{lemma} \label{notbad}
+    For any $K_H \in \mathcal{K}_H$ and transcript $\tau$ such that $\prob{Y = \tau} > 0$ and
+    $(K_H, \tau) \notin \bad$,
+    \begin{displaymath}
+        \condprobsub{\Omega_X}{\omega \in \comp_X(\tau)}{\omega = (K_H, ., .)}
+        \geq
+        \probsub{\Omega_Y}{\omega \in \comp_Y(\tau)}
+    \end{displaymath}
+\end{lemma}
+
+\begin{proof}
+    In world Y, for any transcript such that $\prob{Y = \tau} > 0$,
+    since all queries are distinct, the responses are independent fair random draws of
+    binary strings of the appropriate length, and therefore
+    $\probsub{\Omega_Y}{\omega \in \comp_Y(\tau)} = \prod_i 2^{-\abs{P^i}}$.
+
+    For world X,
+    let $P_L^i \Concat P_R^i = P^i$, $P_M^i = \xi_{K_H, T^i}(P^i)$ and similarly for $C^i$.
+    Since $(K_H, \tau) \notin \bad$ we have that $P_M^i \neq P_M^j$
+    and $C_M^i \neq C_M^j$ for all $i \neq j$.
+    $(K_H, \pi, F) \in \comp_X(\tau)$ exactly if, for each $i$:
+    \begin{align*}
+        {}& \eta_{K_H, \pi, F, T^i}(P^i) = C^i\\
+        \Leftrightarrow {}& \phi_{K_H,T^i}^{-1}(\theta_{\pi, F}(\phi_{K_H,T^i}(P^i))) = C^i\\
+        \Leftrightarrow {}& \theta_{\pi, F}(P_L^i \Concat P_M^i) = C_L^i \Concat C_M^i \\
+        \Leftrightarrow {}& P_L^i \oplus F(C_M^i)[0;\abs{P_L^i}] = C_L^i \wedge \pi(P_M^i) = C_M^i \\
+        \Leftrightarrow {}& F(C_M^i)[0;\abs{P^i} - n] = P_L^i \oplus C_L^i \wedge \pi(P_M^i) = C_M^i \\
+    \end{align*}
+
+    Since $\pi$ and $F$ are drawn independently, we can consider these conditions on them
+    separately. For $F$, since all $C_M^i$ are distinct,
+    these are once again independent fair random draws of
+    binary strings of the appropriate length:
+    \begin{displaymath}
+        \probsub{
+            F \sample (\mathcal{N} \rightarrow \bin^{l_S})
+        }{
+            \forall_i : F(C_M^i)[0;\abs{P^i} - n] = P_L^i \oplus C_L^i
+        } = \prod_i 2^{-(\abs{P^i} - n)}
+    \end{displaymath}
+
+    For $\pi$, again given that all $P_M^i$ are distinct and all $C_M^i$ are distinct,
+    we have that
+    \begin{displaymath}
+        \condprobsub{
+            \pi \sample \Perm(\mathcal{R})
+        }{
+            \pi(P_M^j) = C_M^j
+        }{
+            \forall_{0 \leq i < j} : \pi(P_M^i) = C_M^i
+        } = \frac{1}{2^n - j}
+    \end{displaymath}
+    (we number queries in the range $i \in [0 \ldots q-1]$) and therefore that:
+    \begin{displaymath}
+        \probsub{
+            \pi \sample \Perm(\mathcal{R})
+        }{
+            \forall_i : \pi(P_M^i) = C_M^i
+        } = \prod_i \frac{1}{2^n - i}
+    \end{displaymath}
+
+    Therefore:
+    \begin{align*}
+        {}&\condprobsub{\Omega_X}{\omega \in \comp_X(\tau)}{\omega = (K_H, ., .)} \\
+        ={}& \probsub{
+            \pi \sample \Perm(\mathcal{R}),
+            F \sample (\mathcal{N} \rightarrow \bin^{l_S})
+        }{
+            \forall_i : \eta_{K_H, \pi, F, T^i}(P^i) = C^i
+        } \\
+        ={}& \prod_i \frac{1}{2^n - i}2^{-(\abs{P^i} - n)} \\
+        \geq {}& \prod_i 2^{-\abs{P^i}} = \probsub{\Omega_Y}{\omega \in \comp_Y(\tau)} \qedhere \\
+    \end{align*}
+\end{proof}
+
+\begin{lemma} \label{xyadv}
+    \begin{displaymath}
+        \abs{\rho_X - \rho_Y}
+        \leq (\epsilon + 2^{-n})\binom{q}{2}
+    \end{displaymath}
+\end{lemma}
+
+\begin{proof}
+    For any transcript $\tau$ such that $\prob{Y = \tau} > 0$:
+    \begin{align*}
+        {}& \minone{
+               \frac{\probsub{\Omega_X}{\omega \in \comp_X(\tau)}}
+               {\probsub{\Omega_Y}{\omega \in \comp_Y(\tau)}}
+            } \\
+        ={}& \minone{
+              \frac{\expsub{K_H \sample \mathcal{K}_H}{\condprobsub{\Omega_X}{\omega \in \comp_X(\tau)}{\omega = (K_H, ., .)}}}
+              {\probsub{\Omega_Y}{\omega \in \comp_Y(\tau)}}} \\
+        \intertext{$\minone{\expect{U}} \geq \expect{\minone{U}}$ for any real random variable $U$, therefore}
+        \geq{}&
+            \expsub{K_H \sample \mathcal{K}_H}{
+              \minone{
+              \frac{\condprobsub{\Omega_X}{\omega \in \comp_X(\tau)}{\omega = (K_H, ., .)}}
+              {\probsub{\Omega_Y}{\omega \in \comp_Y(\tau)}}
+              }} \\
+        \geq{}&
+            \probsub{K_H \sample \mathcal{K}_H}{
+                \frac{\condprobsub{\Omega_X}{\omega \in \comp_X(\tau)}{\omega = (K_H, ., .)}}
+                {\probsub{\Omega_Y}{\omega \in \comp_Y(\tau)}} \geq 1
+            } \\
+        \intertext{by \autoref{notbad}}
+        \geq{}& \probsub{K_H \sample \mathcal{K}_H}{(K_H, \tau) \notin \bad} \\
+    \end{align*}
+
+    Using the H-coefficient technique:
+    \begin{align*}
+        {}&\abs{\rho_X - \rho_Y} \\
+        \leq{}& 1 - \expsub{\tau \sample Y}{\minone{
+               \frac{\probsub{\Omega_X}{\omega \in \comp_X(\tau)}}
+               {\probsub{\Omega_Y}{\omega \in \comp_Y(\tau)}}
+            }} \\
+        \leq{}& 1 - \expsub{\tau \sample Y}{
+            \probsub{K_H \sample \mathcal{K}_H}{(K_H, \tau) \notin \bad}} \\
+        = {}& \probsub{\tau \sample Y, K_H \sample \mathcal{K}_H}{(K_H, \tau) \in \bad} \\
+        \leq {}& \probsub{\tau \sample Y, K_H \sample \mathcal{K}_H}{(K_H, \tau) \in \badQ}
+         + \probsub{\tau \sample Y, K_H \sample \mathcal{K}_H}{(K_H, \tau) \in \badR} \\
+         \intertext{by \autoref{badQ} and \autoref{badR}}
+        \leq {}& (\epsilon + 2^{-n})\binom{q}{2} \qedhere \\
+    \end{align*}
+\end{proof}
+
+\subsection{Proof of primary claim}
+\begin{proof}[Proof of \autoref{hbshadvantage}]\label{hbshproof}
+    Copying the definitions of $\rho_X$, $\rho_Y$ from \autoref{rhox},
+    we define
+    \begin{align*}
+        \rho_V \defeq{}& \probsub{K_S \sample \mathcal{K}_S}
+            {A^{\HBSH_{K_S}, \HBSH_{K_S}^{-1}}\Rightarrow 1} \\
+        \rho_W \defeq{}& \probsub{F \sample (\mathcal{N} \rightarrow \bin^{l_S})}
+            {A^{\bar{\eta}_{F}, \bar{\eta}_{F}^{-1}}\Rightarrow 1} \\
+        \rho_X \defeq{}& \probsub{\Omega_X}{A^{\Upsilon_X(\omega)} \Rightarrow 1} \\
+            ={}&\probsub{K_H, \pi, F \sample \Omega_X}{A^{\eta_{K_H, \pi, F}, \eta_{K_H, \pi, F}^{-1}} \Rightarrow 1} \\
+        \rho_Y \defeq{}& \probsub{\Omega_Y}{A^{\Upsilon_Y(\omega)} \Rightarrow 1} \\
+            ={}&\probsub{\mathcal{E}, \mathcal{D} \sample \LP^\mathcal{T}(\mathcal{M}) \times \LP^\mathcal{T}(\mathcal{M})}{A^{\mathcal{E}, \mathcal{D}} \Rightarrow 1} \\
+        \rho_Z \defeq{}& \probsub{\bm{\pi} \sample \Perm^\mathcal{T}(\mathcal{M})}
+            {A^{\bm{\pi},\bm{\pi}^{-1}}\Rightarrow 1} \\
+    \end{align*}
+
+    Distinguishing
+    $\rho_V$ and $\rho_W$ is distinguishing the substitution of a stream cipher
+    for a random function.
+    Including the key schedule, the adversary distinguishing
+    $\rho_V$ and $\rho_W$ makes at most $q + 1$ queries to the stream cipher
+    or random function respectively, and uses at most $\abs{K_E} + \abs{K_H} + q(l_M - n)$ bits
+    of the output; by a standard substitution argument per \cite{cbcsec,concsym},
+    $\abs{\rho_V - \rho_W} \leq
+    \advantage{\mathrm{sc}}{S}[(q + 1, \abs{K_E} + \abs{K_H} + q(l_M - n), t')]$
+    where $t' = t + \bigO{q(l_T + l_M)}$.
+
+    The differences between $\rho_W$ and $\rho_X$ are the use of a block cipher
+    in place of a random permutation, and the use of $F(\lambda)$ to determine
+    $K_E$ and $K_H$. Since $F$ is a random function and $F(\lambda)$ is used
+    only here, this is equivalent to choosing them at random; again by a substitution
+    argument we have that $\abs{\rho_W - \rho_X} \leq \advantage{\pm \mathrm{prp}}{E}[(q, t')]$.
+
+    $\abs{\rho_X - \rho_Y} \leq (\epsilon + 2^{-n})\binom{q}{2}$ by \autoref{xyadv}.
+    Since we forbid pointless queries,
+    $\abs{\rho_Y - \rho_Z} \leq 2^{-n}\binom{q}{2}$ by Halevi and Rogaway's PRP-RND lemma
+    (\cite{cmc}, Appendix C, Lemma 6).
+
+    \autoref{hbshadvantage} follows by summing these bounds:
+    $\abs{\rho_V - \rho_Z} \leq
+    \abs{\rho_V - \rho_W} + \abs{\rho_W - \rho_X} + \abs{\rho_X - \rho_Y} + \abs{\rho_Y - \rho_Z}$.
+\end{proof}
+
+\subbib
+\end{document}

@@ -1,0 +1,109 @@
+% Copyright 2018 Google LLC
+%
+% Use of this source code is governed by an MIT-style
+% license that can be found in the LICENSE file or at
+% https://opensource.org/licenses/MIT.
+
+%!TeX spellcheck = en-US
+
+\usepackage[style=alphabetic,backend=biber,alldates=ymd]{biblatex}
+\usepackage{tikz}
+\usepackage{makecell}
+\usepackage{bm}
+\usepackage[logic,probability,advantage,adversary,landau,sets,operators]{cryptocode}
+\usepackage{algpseudocode}
+\usepackage{booktabs}
+
+\usetikzlibrary{positioning}
+\usetikzlibrary{groupops}
+
+\providecommand*{\lemmaautorefname}{Lemma}
+\renewcommand{\pcadvantagesuperstyle}[1]{#1}
+
+\newcommand*{\parintro}[1]{\textbf{#1}:}
+
+\DeclareMathOperator{\GF}{GF}
+\DeclareMathOperator{\XChaCha12}{XChaCha12}
+\DeclareMathOperator{\HBSH}{HBSH}
+\DeclareMathOperator{\Polydjb}{Poly1305}
+
+\DeclareMathOperator{\NH}{NH}
+\DeclareMathOperator{\intify}{int}
+\DeclareMathOperator{\fromint}{bin}
+\DeclareMathOperator{\pad}{pad}
+\DeclareMathOperator{\Perm}{Perm}
+\DeclareMathOperator{\LP}{LP}
+\DeclareMathOperator{\comp}{\mathsf{comp}}
+\DeclareMathOperator{\badQ}{\mathbf{badQ}}
+\DeclareMathOperator{\badR}{\mathbf{badR}}
+\DeclareMathOperator{\bad}{\mathbf{bad}}
+
+\newcommand*{\Concat}{\Vert}
+\newcommand*{\defeq}{\stackrel{\text{def}}{=}}
+\newcommand*{\minone}[1]{\min\left(1,#1\right)}
+
+\addbibresource{bib.bib}
+
+\title{{Adiantum}: length-preserving encryption for entry-level processors}
+
+\tikzset{cbox/.style={
+        rectangle,
+        thick,
+        draw,
+        minimum height=1cm,
+        text centered,
+        anchor=center,
+        rounded corners=2pt,
+    }
+}
+
+\usepackage{subfiles}
+\def\subbib{\printbibliography}
+\begin{document}
+\def\subbib{}
+\maketitle
+\iftoggle{iacr}{
+    \keywords{super-pseudorandom permutation \and
+        variable input length \and
+        tweakable encryption \and
+        disk encryption}
+}{ % iacr
+} % non-iacr
+
+\begin{abstract}
+    We present HBSH, a simple construction for tweakable length-preserving encryption which
+    supports the fastest options for hashing and stream encryption for processors
+    without AES or other crypto instructions, with a provable
+    quadratic advantage bound. Our composition Adiantum uses NH, Poly1305, XChaCha12,
+    and a single AES invocation. On an ARM Cortex-A7 processor, Adiantum decrypts
+    4096-byte messages at 10.6 cycles per byte, over five times faster than
+    AES-256-XTS, with a constant-time implementation. We also define HPolyC which is
+    simpler and has excellent key agility at 13.6 cycles per byte.
+\iftoggle{iacr}{
+}{
+
+    This paper: \url{https://ia.cr/2018/720} \\
+    Source: \url{https://github.com/google/adiantum} \\
+    Email: \href{mailto:paulcrowley@google.com,ebiggers@google.com}{\{paulcrowley,ebiggers\}@google.com}
+}
+\end{abstract}
+
+\iftoggle{iacr}{
+}{ % iacr
+    \tableofcontents
+} % non-iacr
+
+\subfile{introduction.tex}
+\subfile{specification.tex}
+\subfile{design.tex}
+\subfile{performance.tex}
+\subfile{proof.tex}
+\subfile{hashing.tex}
+\subfile{acks.tex}
+\printbibliography[heading=bibintoc]
+\appendix
+\subfile{github.tex}
+
+\vspace*{\fill}
+Version: \texttt{\input{work/git.tex}}
+\end{document}

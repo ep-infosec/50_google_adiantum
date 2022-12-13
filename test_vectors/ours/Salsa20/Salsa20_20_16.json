@@ -1,0 +1,237 @@
+[
+    {
+        "cipher": {
+            "cipher": "Salsa20",
+            "rounds": 20,
+            "lengths": {
+                "key": 16,
+                "nonce": 8
+            }
+        },
+        "description": "Random ( 1)",
+        "input": {
+            "key_hex": "0e1cac747a2c4d4aca96dfbd0a97e5c4",
+            "nonce_hex": "c59d134767c56c35"
+        },
+        "tests": [
+            {
+                "input": {
+                    "offset": 0
+                },
+                "result_hex": "ff42b1b0e41969f8f37ab358aa9435d9d185dc9e0e06ba3e49b09aeae31a7e59ddf30f053946d8bdefbb55190c87c58408c71fce813e65a88a926cfa4933a3e1"
+            },
+            {
+                "input": {
+                    "offset": 1
+                },
+                "result_hex": "309af0316be30c6c0136a4cfe303c902113136392fcc8ade50622def55269a7c99256b64e8f2b5c4008e1a4113bb8fe3903023f65ddbc7e07ccbff6ef917d1bb"
+            },
+            {
+                "input": {
+                    "offset": 1023
+                },
+                "result_hex": "ebd055173d12daca43277a170938042ae8ebbb55b3aa96364c57a76f5c686265d5e6efbe11fc8bda59da0689eb1fa4f057778c53013972be1d9fd6285cdc1e95"
+            },
+            {
+                "input": {
+                    "offset": 1024
+                },
+                "result_hex": "a3580a24f5086ddf482011ebce27ead3f79b433f261bc57a59cc46e628472360894ecf19d0da0904966a45a87fb80bccd11f9211a27afc1dc23ae8810dbf7ff7"
+            },
+            {
+                "input": {
+                    "offset": 2048
+                },
+                "result_hex": "5c51f407bc5019c2e230aeef7996997268942455741686a1ddf3d89d47852aafa55aa7ad34278c637bddf7803c6e497fc97f588f467a805b1231db74140f829d"
+            }
+        ]
+    },
+    {
+        "cipher": {
+            "cipher": "Salsa20",
+            "rounds": 20,
+            "lengths": {
+                "key": 16,
+                "nonce": 8
+            }
+        },
+        "description": "Random ( 2)",
+        "input": {
+            "key_hex": "2ca6db3d175b388eec6b350976313b8a",
+            "nonce_hex": "f303bcf6a70ab0cd"
+        },
+        "tests": [
+            {
+                "input": {
+                    "offset": 0
+                },
+                "result_hex": "e69e3f8e1eeb0b2895c865dcf6e7abd277252e26915ec6033dd8e13c4a9a203e384e5ca517aed13b98954e8d46a5b25bc8f89f04f91c0dcc4b7b0a7a31308be0"
+            },
+            {
+                "input": {
+                    "offset": 1
+                },
+                "result_hex": "ea64eb15219c283de9590c8aa95f14dd0e70b7b344bba678c8436f8d62c0348f94ee9f0500101a56caacddf5d6729e1197bdb2d23c6ae77840779c7e2c745d42"
+            },
+            {
+                "input": {
+                    "offset": 1023
+                },
+                "result_hex": "ba39395b7cdf3cb21ca365539e2516cfb8afca0915aaf026d0a8d9fff4a1d7c1afb7754db8792913bacaa4147d33499cd5e1295766ce101d0ec69a2ae0f2950a"
+            },
+            {
+                "input": {
+                    "offset": 1024
+                },
+                "result_hex": "6ecc9c00d2fc075014fdf3f054f05ae8296836c817de36d946cdbb46befe64271301b2906a6bb16cdbbed4619b71ed62c2c4414c6066418482eafe7c13781316"
+            },
+            {
+                "input": {
+                    "offset": 2048
+                },
+                "result_hex": "2368bcc761cad390e7fc424298c95f72035838391f5c6eba69c359d5ca4063ab81254a467256355cc5e45007b84406eb79f3f1c9c689cd2cb479b08b229f963b"
+            }
+        ]
+    },
+    {
+        "cipher": {
+            "cipher": "Salsa20",
+            "rounds": 20,
+            "lengths": {
+                "key": 16,
+                "nonce": 8
+            }
+        },
+        "description": "Random ( 3)",
+        "input": {
+            "key_hex": "9df6a07af42e3acd3951b9ae6c29e86c",
+            "nonce_hex": "bf1d6181b935c3db"
+        },
+        "tests": [
+            {
+                "input": {
+                    "offset": 0
+                },
+                "result_hex": "b57a963ad61f68beb0254b6a5c98c3cae795d97059697a1ff3874abc198c23537b1d00503a5cbad3cdee7923d28cc59b4e912895d2f50f1b9f1914d61c8b71aa"
+            },
+            {
+                "input": {
+                    "offset": 1
+                },
+                "result_hex": "5c810e7b5d806679551ad423fd9a40fa4618e96ae38c28858aeaa6a97556ee324199894ac785a2a9e43f0c28c79ba899c4016b0c655d6b692caa319f95f854d3"
+            },
+            {
+                "input": {
+                    "offset": 1023
+                },
+                "result_hex": "11759b53f0412b456866baea3eb3c02868cf838e64ece349d5176e724ae02143d4699c5ab3bbe006be6927d5922ed818300d62af89272d7aa895b2a3d41444ab"
+            },
+            {
+                "input": {
+                    "offset": 1024
+                },
+                "result_hex": "17ddcfd6d70ebe5522cb410f8763e2cfa7802a6d4ce76b954d63bc3ddce17b395f32cd5f74cddd270f4e20969f5d2abad30a4bf3c19069a084ec47b4d0d8dd2e"
+            },
+            {
+                "input": {
+                    "offset": 2048
+                },
+                "result_hex": "c82b4d2d4726e59341a4cf9c3fc61bb034cb87ac91c0bbdee07f877f7de6105517828e8636361eeca8ffe3b52d45b27e5520f0ea28c15ea9295565d4ceb7fe71"
+            }
+        ]
+    },
+    {
+        "cipher": {
+            "cipher": "Salsa20",
+            "rounds": 20,
+            "lengths": {
+                "key": 16,
+                "nonce": 8
+            }
+        },
+        "description": "Random ( 4)",
+        "input": {
+            "key_hex": "47ce0167e89361a22d55396c94a7354b",
+            "nonce_hex": "829aa86650c19556"
+        },
+        "tests": [
+            {
+                "input": {
+                    "offset": 0
+                },
+                "result_hex": "044132f54d6f44bc2a841dedda5aae61f5eb272acefb2f3d9364b0a6337854084d056d6dbb285d30e851f6b89ce9bc8c940860afb40314dba51be0dd7862cc14"
+            },
+            {
+                "input": {
+                    "offset": 1
+                },
+                "result_hex": "9d2dd5efc7c472ac81f507b6b7ff7abe78bb7d94b96e53d6dab52ca79fb160bfe1383f58d2e5855db2588edcccb8765b13f2e0ac85cdfc1f232a6a42357798f5"
+            },
+            {
+                "input": {
+                    "offset": 1023
+                },
+                "result_hex": "61eeadc9e52f649fa869fb3866a6527f73897b484ac960560b053f39c493f58e96dc01fde59b5c8d2e5f7e67d8f7718407617a5b26fbf3fd5f87641d6f53598d"
+            },
+            {
+                "input": {
+                    "offset": 1024
+                },
+                "result_hex": "9625e639fd16f2b3607fc004ebcef7f1d4ed3e6cb6a49a4a66b785d02354e2e1e4fabdc601cbaef290befc7d2518518a348e54a18a4e75b82cc9e2bb8cf81282"
+            },
+            {
+                "input": {
+                    "offset": 2048
+                },
+                "result_hex": "fc60929d9b6de5fd9dfc7f42e0cf318d83e13e1e0ef278a20400fd2db06de234841a244024e475b239279e0f98f8612636db317d2d41b2c05bb70eebccccd8e0"
+            }
+        ]
+    },
+    {
+        "cipher": {
+            "cipher": "Salsa20",
+            "rounds": 20,
+            "lengths": {
+                "key": 16,
+                "nonce": 8
+            }
+        },
+        "description": "Random ( 5)",
+        "input": {
+            "key_hex": "69457f961ad8e7c52d66957289f62ad0",
+            "nonce_hex": "a32871b60ba146dd"
+        },
+        "tests": [
+            {
+                "input": {
+                    "offset": 0
+                },
+                "result_hex": "d45ec5c36ed07690add8294aab6c842a6fb07fcf70b90cc21aa75c8d7da3804c00aab2f9e5852c820d95cbe1dc7c4c52fb5bc7d764567934f1a5d5ff5eb5bc98"
+            },
+            {
+                "input": {
+                    "offset": 1
+                },
+                "result_hex": "c63f649463ee865a00d3e1855fa7c4734750d65b98206b2ae389f458f05ad39a6a52fc806bf744079dc67a34073c8ff2d9714e1a819b5add4c0bcb77f0bd6c77"
+            },
+            {
+                "input": {
+                    "offset": 1023
+                },
+                "result_hex": "8538a85faf7e989d1e8ee8120965018778af23c3d8eec108acb7d5b8737d1191a3e5e355d699c3cb1af73ce38815738eec6b058b9c1915946e30103f85d2a644"
+            },
+            {
+                "input": {
+                    "offset": 1024
+                },
+                "result_hex": "f37ec38d02c3394c7a9c9940c143c81f6a0a3c369cda6bb9cb4e6a7bc511a9dd38045233acaf9e3d25462f9e8c8d7923ecde4a69c68c3506f34e749e800d8705"
+            },
+            {
+                "input": {
+                    "offset": 2048
+                },
+                "result_hex": "63b97dddba9dfb795de616bb6e72a766f866d3221a556a6b369c1acb6e8c85ca9c8e78a221e2b04763d2698d73f28041323219a43024341c2b0d6e41f290bc25"
+            }
+        ]
+    }
+]
